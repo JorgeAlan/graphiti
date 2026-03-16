@@ -91,6 +91,22 @@ graphiti:
   episode_id_prefix: ${EPISODE_ID_PREFIX:}
   user_id: ${USER_ID:mcp_user}
   entity_types:
+    # ── Tagers domain-specific types ────────────────────────────────────
+    - name: "Branch"
+      description: "Restaurant branch location (5sur, zavaleta, sonata, angelopolis, sanangel)"
+    - name: "Employee"
+      description: "Staff member with name, branch, and role"
+    - name: "Customer"
+      description: "CRM customer with lifecycle, value, and health classification"
+    - name: "Product"
+      description: "Menu item or inventory product"
+    - name: "Incident"
+      description: "Anomaly, fraud case, complaint, or operational disruption"
+    - name: "Case"
+      description: "LUCA investigation case tracking detection through resolution"
+    - name: "Detector"
+      description: "Anomaly detection system (DiscountAnomaly, SweetheartingPattern, etc.)"
+    # ── Generic types (kept for general knowledge) ──────────────────────
     - name: "Preference"
       description: "User preferences, choices, opinions, or selections (PRIORITIZE over most other types except User/Assistant)"
     - name: "Requirement"
