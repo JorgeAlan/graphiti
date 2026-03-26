@@ -1,5 +1,5 @@
 {
   "deploy": {
-    "startCommand": "cd mcp_server && python main.py"
+    "startCommand": "cd mcp_server && uv sync --frozen --no-dev && python main.py"
   }
 }
