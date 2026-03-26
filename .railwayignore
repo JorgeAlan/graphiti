@@ -1,8 +1,0 @@
-.venv
-mcp_server/.venv
-__pycache__
-*.pyc
-.pytest_cache
-tests/
-server/
-.git
