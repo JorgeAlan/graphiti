@@ -23,7 +23,7 @@ on:
       fork_branch:
         description: "Fork branch to track"
         required: false
-        default: "tagers-v0.28.2"
+        default: "tagers-v0.29.0"
       upstream_branch:
         description: "Upstream branch to compare against"
         required: false
@@ -38,7 +38,7 @@ jobs:
   drift:
     runs-on: ubuntu-latest
     env:
-      FORK_BRANCH: ${{ github.event.inputs.fork_branch || 'tagers-v0.28.2' }}
+      FORK_BRANCH: ${{ github.event.inputs.fork_branch || 'tagers-v0.29.0' }}
       UPSTREAM_BRANCH: ${{ github.event.inputs.upstream_branch || 'main' }}
     steps:
       - name: Checkout fork (full history)
