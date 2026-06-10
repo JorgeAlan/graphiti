@@ -167,10 +167,35 @@ When searching, use specific queries and consider filtering by group_id, type, o
 server requires a configured database and valid API keys for language-model operations.
 """
 
+# Transport security (Tagers deploy fix):
+# FastMCP() is constructed before the configured bind host is known, so the MCP SDK
+# (>= 1.10) auto-enables DNS rebinding protection with a localhost-only allowlist
+# (its `host` parameter defaults to 127.0.0.1). Behind Railway's edge proxy the
+# public hostname then gets rejected with `421 Invalid Host header`.
+# If MCP_ALLOWED_HOSTS is set (comma-separated hostnames), keep the protection
+# enabled for exactly those hosts; otherwise disable it — the SDK's own default
+# for non-localhost binds.
+from mcp.server.transport_security import TransportSecuritySettings  # noqa: E402
+
+
+def _build_transport_security() -> TransportSecuritySettings:
+    allowed = [h.strip() for h in os.environ.get('MCP_ALLOWED_HOSTS', '').split(',') if h.strip()]
+    if not allowed:
+        return TransportSecuritySettings(enable_dns_rebinding_protection=False)
+    hosts: list[str] = []
+    for host in ['127.0.0.1', 'localhost', *allowed]:
+        hosts.extend([host, f'{host}:*'])
+    return TransportSecuritySettings(
+        enable_dns_rebinding_protection=True,
+        allowed_hosts=hosts,
+    )
+
+
 # MCP server instance
 mcp = FastMCP(
     'Graphiti Agent Memory',
     instructions=GRAPHITI_MCP_INSTRUCTIONS,
+    transport_security=_build_transport_security(),
 )
 
 # Global services
